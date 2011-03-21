@@ -173,7 +173,7 @@ var tests = {
         Assert.strictEqual(9, root.nodes()[1].nodes()[1].kvs()[0].key);
         Assert.strictEqual(10, root.nodes()[1].nodes()[1].kvs()[1].key);        
         Assert.strictEqual(11, root.nodes()[1].nodes()[1].kvs()[2].key);        
-    },
+    }
     // test_erase_case_5: function(tree) {
     //     root = tree._root();
     //     tree.insert(5);
