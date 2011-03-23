@@ -1,10 +1,12 @@
-var Couch = require(__dirname + '/../lib/memcouchd');
+var CouchFactory = require(__dirname + '/../lib/couch_factory').CouchFactory;
 var Assert = require('assert');
 var Runner = require('./runner');
 
 var basic_tests = {
     setup: function() {
-        return Couch.create();
+        var mem_couch_factory =  new CouchFactory(__dirname + '/../lib/store' );
+	var couch = mem_couch_factory.newCouch();
+	return couch;
     },
     test_uuid: function(couch) {
         var uuid = couch.uuid();
@@ -77,8 +79,9 @@ var basic_tests = {
 
 var doc_tests = {
     setup: function() {
-        var couch = Couch.create();
-        couch.dbCreate('test');
+        var mem_couch_factory = new CouchFactory(__dirname + '/../lib/store' );
+	var couch = mem_couch_factory.newCouch();	
+        var db = couch.dbCreate('test');
         return couch;
     },
     test_put_null_doc: function(couch) {
@@ -191,12 +194,13 @@ var doc_tests = {
             Assert.strictEqual(42, row.value.foo);
         });        
     }
-};
-
+}
+;
 var view_tests = {
     setup: function() {
-        var couch = Couch.create();
-        couch.dbCreate('test');
+        var mem_couch_factory = new CouchFactory(__dirname + '/../lib/store' );
+	var couch = mem_couch_factory.newCouch()
+        var db = couch.dbCreate('test');
         return couch;
     },
     test_put_view_in_empty_db: function(couch) {
@@ -235,6 +239,11 @@ var view_tests = {
     }
 };
 
-Runner.run(basic_tests);
-Runner.run(doc_tests);
-Runner.run(view_tests);
+//make life a little easier on ourselves with the eclipse debugger
+exports.run = function() {
+
+    Runner.run(basic_tests);
+    Runner.run(doc_tests);
+    Runner.run(view_tests);
+
+}

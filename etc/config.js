@@ -1,1 +1,1 @@
-exports.store = { module : './memcouchd' };
+exports.store = { module : './store' };
